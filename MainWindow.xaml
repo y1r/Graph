@@ -81,6 +81,7 @@
 					Margin="10,190,0,0"
 					VerticalAlignment="Top"
 					Width="170"
+					ItemsSource="{Binding Logs}"
 					/>
 			</Grid>
 		</Border>
@@ -93,10 +94,18 @@
 			VerticalAlignment="Top"
 			Width="780"
 			>
-			<Grid>
-				
-			</Grid>
+			<Canvas
+				Background="GhostWhite"
+				>
+				<Canvas.InputBindings>
+					<MouseBinding
+						Gesture="LeftClick"
+						Command="{Binding GraphBackGroundClick}"
+						/>
+				</Canvas.InputBindings>
+				<ItemsControl ItemsSource="{Binding Nodes}"/>
+				<ItemsControl ItemsSource="{Binding Edges}"/>
+			</Canvas>
 		</Border>
-
 	</Grid>
 </Window>

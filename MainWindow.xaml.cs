@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using Graph.ViewModels;
+
 namespace Graph
 {
 	/// <summary>
@@ -23,6 +25,9 @@ namespace Graph
 		public MainWindow()
 		{
 			InitializeComponent();
+
+			var main = new MainViewModel();
+			this.DataContext = main;
 		}
 	}
 }
