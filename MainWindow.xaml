@@ -18,7 +18,7 @@
 			VerticalAlignment="Top"
 			Width="200"
 			>
-			<Grid Margin="0,0,0,5">
+			<Canvas Margin="0,0,0,5">
 				<TextBlock
 					HorizontalAlignment="Left"
 					TextAlignment="Center"
@@ -82,8 +82,9 @@
 					VerticalAlignment="Top"
 					Width="170"
 					ItemsSource="{Binding Logs}"
+					FontSize="8"
 					/>
-			</Grid>
+			</Canvas>
 		</Border>
 		<Border
 			BorderBrush="Black"
@@ -95,16 +96,49 @@
 			Width="780"
 			>
 			<Canvas
+				Name="GraphCanvas"
 				Background="GhostWhite"
 				>
 				<Canvas.InputBindings>
 					<MouseBinding
 						Gesture="LeftClick"
 						Command="{Binding GraphBackGroundClick}"
+						CommandParameter="{Binding ElementName=GraphCanvas}"
 						/>
 				</Canvas.InputBindings>
-				<ItemsControl ItemsSource="{Binding Nodes}"/>
-				<ItemsControl ItemsSource="{Binding Edges}"/>
+				<ItemsControl ItemsSource="{Binding Nodes}">
+					<ItemsControl.InputBindings>
+					</ItemsControl.InputBindings>
+
+					<ItemsControl.ItemsPanel>
+						<ItemsPanelTemplate>
+							<Canvas />
+						</ItemsPanelTemplate>
+					</ItemsControl.ItemsPanel>
+
+					<ItemsControl.ItemContainerStyle>
+						<Style>
+							<Setter Property="Canvas.Left" Value="{Binding xPos}" />
+							<Setter Property="Canvas.Top" Value="{Binding yPos}" />
+						</Style>
+					</ItemsControl.ItemContainerStyle>
+
+					<ItemsControl.ItemTemplate>
+						<DataTemplate>
+							<Ellipse
+								Width="{Binding width}"
+								Height="{Binding height}"
+								Fill="Black"
+								/>
+						</DataTemplate>
+					</ItemsControl.ItemTemplate>
+
+				</ItemsControl>
+				<ItemsControl ItemsSource="{Binding Edges}">
+					<ItemsControl.InputBindings>
+
+					</ItemsControl.InputBindings>
+				</ItemsControl>
 			</Canvas>
 		</Border>
 	</Grid>
