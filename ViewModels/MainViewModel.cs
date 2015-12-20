@@ -1,17 +1,15 @@
 ﻿using System;
 using System.ComponentModel;
-using System.Collections.ObjectModel;
-using System.Windows.Shapes;
 using System.Windows.Input;
-
 using Microsoft.TeamFoundation.MVVM;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Collections.ObjectModel;
 
 namespace Graph.ViewModels
 {
-	public class MainViewModel : INotifyPropertyChanged
+	public class MainViewModel : ViewModelBase
 	{
 		private ObservableCollection<NodeViewModel> _nodes = new ObservableCollection<NodeViewModel>();
 		public ObservableCollection<NodeViewModel> Nodes
@@ -20,29 +18,29 @@ namespace Graph.ViewModels
 			set
 			{
 				_nodes = value;
-				NotifyPropertyChanged("Nodes");
+				RaisePropertyChanged("Nodes");
 			}
 		}
 
-		private ObservableCollection<Line> _edges = new ObservableCollection<Line>();
-		public ObservableCollection<Line> Edges
+		private ObservableCollection<NodeViewModel> _edges = new ObservableCollection<NodeViewModel>();
+		public ObservableCollection<NodeViewModel> Edges
 		{
 			get { return _edges; }
 			set
 			{
 				_edges = value;
-				NotifyPropertyChanged("Edges");
+				RaisePropertyChanged("Edges");
 			}
 		}
 
-		private ObservableCollection<String> _logs = new ObservableCollection<string>();
-		public ObservableCollection<String> Logs
+		private ObservableCollection<LogViewModel> _logs = new ObservableCollection<LogViewModel>();
+		public ObservableCollection<LogViewModel> Logs
 		{
 			get { return _logs; }
 			set
 			{
 				_logs = value;
-				NotifyPropertyChanged("Logs");
+				RaisePropertyChanged("Logs");
 			}
 		}
 
@@ -52,42 +50,22 @@ namespace Graph.ViewModels
 		{
 			var canvas = (Canvas)parameter;
 			var ptr = Mouse.GetPosition(canvas);
-			Logs.Add("GraphCanvasClicked:(" + ptr.ToString() + ")");
+			Logs.Add(new LogViewModel("GraphCanvasClicked:(" + ptr.ToString() + ")"));
 
-			/*
-			var newNode = new Ellipse();			
-
-			newNode.Width = 10;
-			newNode.Height = 10;
-
-			Canvas.SetLeft(newNode, 5 + ptr.X);
-			Canvas.SetTop(newNode, 5 + ptr.Y);
-
-			newNode.Fill = Brushes.Black;
-			Nodes.Add(newNode);
-			 */
 			var newNode = new NodeViewModel();
 			newNode.width = 50;
 			newNode.height = 50;
 			newNode.xPos = ptr.X - 25;
 			newNode.yPos = ptr.Y - 25;
 			Nodes.Add(newNode);
+
+			if (Nodes.Count >= 3)
+				Nodes[0].xPos += 100;
 		}
 
 		public MainViewModel()
 		{
-			GraphBackGroundClick = new RelayCommand(
-_graphBackGroundClick
-				);
-		}
-
-		public event PropertyChangedEventHandler PropertyChanged;
-		private void NotifyPropertyChanged(String info)
-		{
-			if (PropertyChanged != null)
-			{
-				PropertyChanged(this, new PropertyChangedEventArgs(info));
-			}
+			GraphBackGroundClick = new RelayCommand( _graphBackGroundClick );
 		}
 	}
 }

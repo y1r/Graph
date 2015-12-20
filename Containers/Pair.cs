@@ -8,11 +8,11 @@ namespace Graph.Containers
 {
 	public class Pair<T> : IEquatable<Pair<T>>
 	{
-		T _first;
-		T _second;
+		private T _first;
+		private T _second;
 
-		T First { get; set; }
-		T Second { get; set; }
+		public T First { get; set; }
+		public T Second { get; set; }
 
 		public Pair( T first, T second )
 		{

@@ -1,16 +1,75 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.TeamFoundation.MVVM;
 
 namespace Graph.ViewModels
 {
-	public class NodeViewModel
+	public class NodeViewModel : ViewModelBase
 	{
-		public double xPos { get; set; }
-		public double yPos { get; set; }
-		public double width { get; set; }
-		public double height { get; set; }
+		private double _xPos;
+		public double xPos
+		{
+			get
+			{
+				return _xPos;
+			}
+			set
+			{
+				if (_xPos != value)
+				{
+					_xPos = value;
+					RaisePropertyChanged("xPos");
+				}
+			}
+		}
+
+		private double _yPos;
+		public double yPos
+		{
+			get
+			{
+				return _yPos;
+			}
+			set
+			{
+				if (_yPos != value)
+				{
+					_yPos = value;
+					RaisePropertyChanged("yPos");
+				}
+			}
+		}
+
+		private double _width;
+		public double width
+		{
+			get
+			{
+				return _width;
+			}
+			set
+			{
+				if (_width != value)
+				{
+					_width = value;
+					RaisePropertyChanged("width");
+				}
+			}
+		}
+
+		private double _height;
+		public double height
+		{
+			get
+			{
+				return _height;
+			}
+			set
+			{
+				if (_height != value)
+				{
+					_height = value;
+					RaisePropertyChanged("height");
+				}
+			}
+		}
 	}
 }

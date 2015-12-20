@@ -5,96 +5,103 @@
 	Title="Graph Algorithms and their Visualizations"
 	WindowStyle="ThreeDBorderWindow"
 	WindowStartupLocation="CenterScreen"
-	Width="1024" Height="768"
+	ResizeMode="CanResize"
+	Width="1024"
+	Height="768"
 	>
 	<Grid>
-
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="1*"/>
+			<ColumnDefinition Width="4*"/>
+		</Grid.ColumnDefinitions>
 		<Border
-			BorderBrush="Black"
-			BorderThickness="3"
-			HorizontalAlignment="Left"
-			Height="706"
-			Margin="10,10,0,0"
-			VerticalAlignment="Top"
-			Width="200"
-			>
-			<Canvas Margin="0,0,0,5">
+				BorderBrush="Gray"
+				BorderThickness="3"
+				Grid.Column="0"
+				Grid.Row="0"
+				>
+			<Grid Grid.Column="0">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="15" />
+					<RowDefinition Height="30" />
+					<RowDefinition Height="30" />
+					<RowDefinition Height="15" />
+					<RowDefinition Height="*" />
+				</Grid.RowDefinitions>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="*"/>
+					<ColumnDefinition Width="*"/>
+				</Grid.ColumnDefinitions>
+				
 				<TextBlock
-					HorizontalAlignment="Left"
 					TextAlignment="Center"
-					TextWrapping="Wrap"
 					Text="Controlls"
-					VerticalAlignment="Top"
-					Margin="10,10,0,0"
-					Width="170"
+					Grid.Row="0"
+					Grid.Column="0"
+					Grid.ColumnSpan="2"
 					/>
+				
+				<Button
+					Grid.Column="0"
+					Grid.Row="1">
+					<Viewbox>
+						<Label Content="Deep-First Search"/>
+					</Viewbox>
+				</Button>
 
 				<Button
-					Content="Deep-First Search"
-					HorizontalAlignment="Left"
-					Margin="10,30,0,0"
-					VerticalAlignment="Top"
-					Width="170"
-					Height="30"
-					/>
+					Grid.Column="1"
+					Grid.Row="1">
+					<Viewbox>
+						<Label Content="Breadth-First Search"/>
+					</Viewbox>
+				</Button>
 
 				<Button
-					Content="Breadth-First Search"
-					HorizontalAlignment="Left"
-					Margin="10,65,0,0"
-					VerticalAlignment="Top"
-					Width="170"
-					Height="30"
-					/>
+					Grid.Column="0"
+					Grid.Row="2">
+					<Viewbox>
+						<Label Content="最短経路探索(Dijkstra)"/>
+					</Viewbox>
+				</Button>
 
 				<Button
-					Content="最短経路探索 (Dijkstra)"
-					HorizontalAlignment="Left"
-					Margin="10,100,0,0"
-					VerticalAlignment="Top"
-					Width="170"
-					Height="30"
-					/>
-
-				<Button
-					Content="最小全域木 (Kruskal)"
-					HorizontalAlignment="Left"
-					Margin="10,135,0,0"
-					VerticalAlignment="Top"
-					Width="170"
-					Height="30"
-					/>
+					Grid.Column="1"
+					Grid.Row="2">
+					<Viewbox>
+						<Label Content="最小全域木 (Kruskal)"/>
+					</Viewbox>
+				</Button>
 
 				<TextBlock
-					HorizontalAlignment="Left"
 					TextAlignment="Center"
-					TextWrapping="Wrap"
 					Text="Log Viewer"
-					VerticalAlignment="Top"
-					Margin="10,170,0,0"
-					Width="170"
+					Grid.Row="3"
+					Grid.Column="0"
+					Grid.ColumnSpan="2"
 					/>
 
 				<ListBox
-					HorizontalAlignment="Left"
-					Height="495"
-					Margin="10,190,0,0"
-					VerticalAlignment="Top"
-					Width="170"
+					HorizontalAlignment="Stretch"
+					VerticalAlignment="Stretch"
 					ItemsSource="{Binding Logs}"
+					DisplayMemberPath="Log"
 					FontSize="8"
-					/>
-			</Canvas>
+					Grid.Row="4"
+					Grid.Column="0"
+					Grid.ColumnSpan="2"
+					>
+					
+				</ListBox>
+			
+			</Grid>
 		</Border>
 		<Border
-			BorderBrush="Black"
-			BorderThickness="3"
-			HorizontalAlignment="Left"
-			Height="706"
-			Margin="215,10,0,0"
-			VerticalAlignment="Top"
-			Width="780"
-			>
+				BorderBrush="Gray"
+				BorderThickness="3"
+				Grid.Column="1"
+				Grid.Row="0"
+				>
 			<Canvas
 				Name="GraphCanvas"
 				Background="GhostWhite"
@@ -139,6 +146,18 @@
 
 					</ItemsControl.InputBindings>
 				</ItemsControl>
+
+				<Thumb>
+					<Thumb.Template>
+						<ControlTemplate TargetType="Thumb">
+							<Ellipse Fill="LightBlue"
+											 Width="50"
+											 Height="50"
+											 />
+						</ControlTemplate>
+					</Thumb.Template>
+				</Thumb>
+
 			</Canvas>
 		</Border>
 	</Grid>
