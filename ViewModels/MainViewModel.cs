@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Collections.ObjectModel;
+using System.Windows.Controls.Primitives;
 
 namespace Graph.ViewModels
 {
@@ -21,9 +22,18 @@ namespace Graph.ViewModels
 				RaisePropertyChanged("Nodes");
 			}
 		}
+		private int _nodesCount = 0;
+		private int NodesCount
+		{
+			get
+			{
+				_nodesCount++;
+				return _nodesCount;
+			}
+		}
 
-		private ObservableCollection<NodeViewModel> _edges = new ObservableCollection<NodeViewModel>();
-		public ObservableCollection<NodeViewModel> Edges
+		private ObservableCollection<EdgeViewModel> _edges = new ObservableCollection<EdgeViewModel>();
+		public ObservableCollection<EdgeViewModel> Edges
 		{
 			get { return _edges; }
 			set
@@ -53,19 +63,24 @@ namespace Graph.ViewModels
 			Logs.Add(new LogViewModel("GraphCanvasClicked:(" + ptr.ToString() + ")"));
 
 			var newNode = new NodeViewModel();
-			newNode.width = 50;
-			newNode.height = 50;
+			newNode.Size = 50;
 			newNode.xPos = ptr.X - 25;
 			newNode.yPos = ptr.Y - 25;
+			newNode.Name = NodesCount.ToString();
 			Nodes.Add(newNode);
+		}
 
-			if (Nodes.Count >= 3)
-				Nodes[0].xPos += 100;
+		public ICommand NodeClick { get; private set; }
+
+		void _nodeClick(Object parameter)
+		{
+			Console.WriteLine("hoge");
+			return;
 		}
 
 		public MainViewModel()
 		{
-			GraphBackGroundClick = new RelayCommand( _graphBackGroundClick );
+			GraphBackGroundClick = new RelayCommand(_graphBackGroundClick);
 		}
 	}
 }

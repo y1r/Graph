@@ -1,4 +1,5 @@
 ﻿using Microsoft.TeamFoundation.MVVM;
+using System;
 
 namespace Graph.ViewModels
 {
@@ -38,36 +39,36 @@ namespace Graph.ViewModels
 			}
 		}
 
-		private double _width;
-		public double width
+		private double _size;
+		public double Size
 		{
 			get
 			{
-				return _width;
+				return _size;
 			}
 			set
 			{
-				if (_width != value)
+				if( _size != value )
 				{
-					_width = value;
-					RaisePropertyChanged("width");
+					_size = value;
+					RaisePropertyChanged("Size");
 				}
 			}
 		}
 
-		private double _height;
-		public double height
+		private string _name;
+		public string Name
 		{
 			get
 			{
-				return _height;
+				return _name;
 			}
 			set
 			{
-				if (_height != value)
+				if( _name != value )
 				{
-					_height = value;
-					RaisePropertyChanged("height");
+					_name = value;
+					RaisePropertyChanged("Name");
 				}
 			}
 		}

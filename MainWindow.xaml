@@ -32,7 +32,7 @@
 					<ColumnDefinition Width="*"/>
 					<ColumnDefinition Width="*"/>
 				</Grid.ColumnDefinitions>
-				
+
 				<TextBlock
 					TextAlignment="Center"
 					Text="Controlls"
@@ -40,7 +40,7 @@
 					Grid.Column="0"
 					Grid.ColumnSpan="2"
 					/>
-				
+
 				<Button
 					Grid.Column="0"
 					Grid.Row="1">
@@ -91,9 +91,9 @@
 					Grid.Column="0"
 					Grid.ColumnSpan="2"
 					>
-					
+
 				</ListBox>
-			
+
 			</Grid>
 		</Border>
 		<Border
@@ -113,6 +113,68 @@
 						CommandParameter="{Binding ElementName=GraphCanvas}"
 						/>
 				</Canvas.InputBindings>
+
+				<ItemsControl
+					ItemsSource="{Binding Nodes}"
+					>
+					<ItemsControl.ItemTemplate>
+						<DataTemplate>
+<!--								<Thumb
+									Canvas.Left="{Binding xPos, Mode=TwoWay}" 
+									Canvas.Top="{Binding yPos, Mode=TwoWay}"
+									Name="Node"
+									MouseLeftButtonDown="Node_MouseLeftButtonDown"
+									MouseLeftButtonUp="Node_MouseLeftButtonUp"
+									MouseMove="Node_MouseMove"
+								>
+									<Thumb.Template>
+										<ControlTemplate TargetType="Thumb">
+											<Grid>
+												<Ellipse
+													Stroke="Black"
+													Fill="White"
+													StrokeThickness="3"
+													Width="{Binding Size}"
+													Height="{Binding Size}"
+												/>
+												<TextBlock	
+													Name="Node"
+													Text="{Binding Name}"
+													HorizontalAlignment="Center"
+													VerticalAlignment="Center"
+												/>
+											</Grid>
+										</ControlTemplate>
+									</Thumb.Template>
+								</Thumb> -->
+								<Canvas>
+									<Grid
+										Canvas.Left="{Binding xPos, Mode=TwoWay}"
+										Canvas.Top="{Binding yPos, Mode=TwoWay}"
+										MouseLeftButtonDown="Node_MouseLeftButtonDown"
+										MouseLeftButtonUp="Node_MouseLeftButtonUp"
+										MouseMove="Node_MouseMove"
+										>
+										<Ellipse
+										Stroke="Black"
+										Fill="White"
+										StrokeThickness="3"
+										Width="{Binding Size}"
+										Height="{Binding Size}"
+										/>
+										<TextBlock	
+										Text="{Binding Name}"
+										HorizontalAlignment="Center"
+										VerticalAlignment="Center"
+										/>
+									</Grid>
+								</Canvas>
+						</DataTemplate>
+					</ItemsControl.ItemTemplate>
+				</ItemsControl>
+				
+				
+				<!--
 				<ItemsControl ItemsSource="{Binding Nodes}">
 					<ItemsControl.InputBindings>
 					</ItemsControl.InputBindings>
@@ -146,17 +208,56 @@
 
 					</ItemsControl.InputBindings>
 				</ItemsControl>
-
-				<Thumb>
+				-->
+				<!--
+				<Thumb Canvas.Left="100" Canvas.Top="100">
 					<Thumb.Template>
 						<ControlTemplate TargetType="Thumb">
-							<Ellipse Fill="LightBlue"
-											 Width="50"
-											 Height="50"
-											 />
+							<Grid>
+								<Ellipse
+								Stroke="Black"
+								Fill="White"
+								StrokeThickness="3"
+								Width="75"
+								Height="75"
+								/>
+								<TextBlock
+									Text="HOGE"
+									HorizontalAlignment="Center"
+									VerticalAlignment="Center"
+									/>
+							</Grid>
 						</ControlTemplate>
 					</Thumb.Template>
 				</Thumb>
+				-->
+
+				<!--
+				<Thumb
+					HorizontalAlignment="Center"
+					VerticalAlignment="Center"
+					>
+					<Thumb.Template>
+						<ControlTemplate TargetType="Thumb">
+							<Grid>
+								<Line
+									X1="100"
+									Y1="100"
+									X2="200"
+									Y2="200"
+									Width="100"
+									Height="100"
+									/>
+								<TextBlock
+									Text="HOGE"
+									HorizontalAlignment="Center"
+									VerticalAlignment="Center"
+									/>
+							</Grid>
+						</ControlTemplate>
+					</Thumb.Template>
+				</Thumb>
+				-->
 
 			</Canvas>
 		</Border>

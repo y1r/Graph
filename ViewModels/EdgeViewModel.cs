@@ -2,7 +2,7 @@
 
 namespace Graph.ViewModels
 {
-	public class EdgeiewModel : ViewModelBase
+	public class EdgeViewModel : ViewModelBase
 	{
 		private Pair<int> _pos;
 		public int First

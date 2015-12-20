@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
+using System.Windows.Controls.Primitives;
+
 using Graph.ViewModels;
 
 namespace Graph
@@ -28,6 +30,79 @@ namespace Graph
 
 			var main = new MainViewModel();
 			this.DataContext = main;
+		}
+
+		private bool _mouseDown = false;
+		private int _lastCtrlClicked = -1;
+		private Point _last;
+
+		private void Node_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+		{
+			int nowClicked = -1;
+			var grid = sender as Grid;
+			if (grid == null)
+				return;
+			grid.CaptureMouse();
+
+			if (Keyboard.GetKeyStates(Key.LeftCtrl) == KeyStates.Down || Keyboard.GetKeyStates(Key.RightCtrl) == KeyStates.Down)
+			{
+				// Ctrl is pressed
+				var children = grid.Children;
+				var textblock = children[1] as TextBlock;
+				if (textblock == null)
+					return;
+				var text = textblock.GetValue(TextBlock.TextProperty) as String;
+				if (text == null)
+					return;
+				nowClicked = int.Parse(text);
+			}
+
+			e.Handled = true;
+			
+			if (nowClicked != -1 && _lastCtrlClicked != -1 && nowClicked != _lastCtrlClicked)
+			{
+				// Connect, TODO
+				var main = DataContext as MainViewModel;
+
+				main.Logs.Add(new LogViewModel("(" + _lastCtrlClicked.ToString() + "," + nowClicked.ToString() + ")"));
+				_lastCtrlClicked = -1;
+			}
+			else
+				_lastCtrlClicked = nowClicked;
+
+			_last = e.GetPosition(grid);
+			_mouseDown = true;
+		}
+
+		private void Node_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+		{
+			if (_mouseDown)
+			{
+				_mouseDown = false;
+				var grid = sender as Grid;
+				if (grid == null)
+					return;
+				grid.ReleaseMouseCapture();
+			}
+
+			e.Handled = true;
+		}
+
+		private void Node_MouseMove(object sender, MouseEventArgs e)
+		{
+			if (_mouseDown)
+			{
+				Point pt = Mouse.GetPosition(GraphCanvas);
+
+				var grid = sender as Grid;
+				if (grid == null)
+					return;
+
+				Canvas.SetLeft(grid, pt.X - _last.X);
+				Canvas.SetTop(grid, pt.Y - _last.Y);
+			}
+
+			e.Handled = true;
 		}
 	}
 }
