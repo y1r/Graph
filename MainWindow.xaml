@@ -136,7 +136,11 @@
 										Stroke="Black"
 										StrokeThickness="5" />
 									<TextBox
-										Text="{Binding Weight}"
+										Text="{
+										Binding Weight,
+										Mode=TwoWay,
+										UpdateSourceTrigger=PropertyChanged
+										}"
 										Background="White"
 										HorizontalAlignment="Center"
 										VerticalAlignment="Center" />
@@ -164,7 +168,7 @@
 										Width="{Binding Size}"
 										Height="{Binding Size}" />
 									<TextBox
-										Text="{Binding Name}"
+										Text="{Binding Name, Mode=TwoWay}"
 										HorizontalAlignment="Center"
 										VerticalAlignment="Center" />
 								</Grid>

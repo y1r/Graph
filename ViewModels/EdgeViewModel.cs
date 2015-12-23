@@ -3,15 +3,20 @@ using System;
 
 namespace Graph.ViewModels
 {
-	public class EdgeViewModel : ViewModelBase
+	public class EdgeViewModel : ViewModelBase, IEquatable<EdgeViewModel>
 	{
-		private Pair<NodeViewModel> _pos ; 
+		public Pair<NodeViewModel> Pos
+		{
+			get;
+			private set;
+		}
 
 		public EdgeViewModel( Pair<NodeViewModel> pos )
 		{
-			_pos = pos;
-			_pos.First.PropertyChanged += NodeViewPropertyChanged;
-			_pos.Second.PropertyChanged += NodeViewPropertyChanged;
+			Pos = pos;
+			Pos.First.PropertyChanged += NodeViewPropertyChanged;
+			Pos.Second.PropertyChanged += NodeViewPropertyChanged;
+			_weight = 1;
 		}
 
 		void NodeViewPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -23,7 +28,7 @@ namespace Graph.ViewModels
 		{
 			get
 			{
-				return System.Math.Min(_pos.First.xPos, _pos.Second.xPos) + 25;
+				return System.Math.Min(Pos.First.xPos, Pos.Second.xPos) + 25;
 			}
 		}
 
@@ -31,7 +36,7 @@ namespace Graph.ViewModels
 		{
 			get
 			{
-				return System.Math.Min(_pos.First.yPos, _pos.Second.yPos) + 25;
+				return System.Math.Min(Pos.First.yPos, Pos.Second.yPos) + 25;
 			}
 		}
 
@@ -39,7 +44,7 @@ namespace Graph.ViewModels
 		{
 			get
 			{
-				return _pos.First.xPos - OriginX + 25;
+				return Pos.First.xPos - OriginX + 25;
 			}
 		}
 
@@ -47,7 +52,7 @@ namespace Graph.ViewModels
 		{
 			get
 			{
-				return _pos.First.yPos - OriginY + 25;
+				return Pos.First.yPos - OriginY + 25;
 			}
 		}
 
@@ -55,7 +60,7 @@ namespace Graph.ViewModels
 		{
 			get
 			{
-				return _pos.Second.xPos - OriginX + 25;
+				return Pos.Second.xPos - OriginX + 25;
 			}
 		}
 
@@ -63,25 +68,48 @@ namespace Graph.ViewModels
 		{
 			get
 			{
-				return _pos.Second.yPos - OriginY + 25;
+				return Pos.Second.yPos - OriginY + 25;
 			}
 		}
 
-		private double _weight;
-		public double Weight
+		public int? _weight
+		{
+			get;
+			private set;
+		}
+
+		public string Weight
 		{
 			get
 			{
-				return _weight;
+				if (_weight == null)
+					return "";
+				else
+					return _weight.ToString();
 			}
 			set
 			{
-				if( _weight != value )
+				int input;
+
+				if( value == "" )
 				{
-					_weight = value;
+					_weight = null;
 					RaisePropertyChanged("Weight");
 				}
+				else if( int.TryParse(value, out input ))
+				{
+					if( _weight != input )
+					{
+						_weight = input;
+						RaisePropertyChanged("Weight");
+					}
+				}
 			}
+		}
+
+		public bool Equals( EdgeViewModel other )
+		{
+			return Pos == other.Pos;
 		}
 	}
 }

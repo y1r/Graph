@@ -9,13 +9,16 @@ using System.Collections.ObjectModel;
 using System.Windows.Controls.Primitives;
 
 using Graph.Containers;
+using Graph.Models;
 
 namespace Graph.ViewModels
 {
 	public class MainViewModel : ViewModelBase
 	{
-		private ObservableCollection<NodeViewModel> _nodes = new ObservableCollection<NodeViewModel>();
-		public ObservableCollection<NodeViewModel> Nodes
+		private GraphModel _graph;
+
+		private NodesViewModel _nodes;
+		public NodesViewModel Nodes
 		{
 			get { return _nodes; }
 			set
@@ -34,8 +37,8 @@ namespace Graph.ViewModels
 			}
 		}
 
-		private ObservableCollection<EdgeViewModel> _edges = new ObservableCollection<EdgeViewModel>();
-		public ObservableCollection<EdgeViewModel> Edges
+		private EdgesViewModel _edges;
+		public EdgesViewModel Edges
 		{
 			get { return _edges; }
 			set
@@ -90,11 +93,22 @@ namespace Graph.ViewModels
 
 			var edge = new EdgeViewModel(new Pair<NodeViewModel>(fromNode, toNode));
 
-			Edges.Add(edge);
+			if( !Edges.Contains(edge) )
+			{
+				Edges.Add(edge);
+			}
+			else
+			{
+				Edges.Remove(edge);
+			}
 		}
 
 		public MainViewModel()
 		{
+			_graph = new GraphModel();
+			_nodes = new NodesViewModel(_graph);
+			_edges = new EdgesViewModel(_graph);
+
 			GraphBackGroundClick = new RelayCommand(_graphBackGroundClick);
 		}
 	}
