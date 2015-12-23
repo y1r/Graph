@@ -40,31 +40,23 @@ namespace Graph
 		{
 			int nowClicked = -1;
 			var grid = sender as Grid;
-			if (grid == null)
-				return;
+			if (grid == null) return;
 			grid.CaptureMouse();
 
-			if (Keyboard.GetKeyStates(Key.LeftCtrl) == KeyStates.Down || Keyboard.GetKeyStates(Key.RightCtrl) == KeyStates.Down)
+			if(Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
 			{
 				// Ctrl is pressed
-				var children = grid.Children;
-				var textblock = children[1] as TextBlock;
-				if (textblock == null)
-					return;
-				var text = textblock.GetValue(TextBlock.TextProperty) as String;
-				if (text == null)
-					return;
-				nowClicked = int.Parse(text);
+				var node = grid.DataContext as NodeViewModel;
+				if (node == null) return;
+				nowClicked = node.Key;
 			}
 
-			e.Handled = true;
-			
 			if (nowClicked != -1 && _lastCtrlClicked != -1 && nowClicked != _lastCtrlClicked)
 			{
-				// Connect, TODO
+				// Connect
 				var main = DataContext as MainViewModel;
-
-				main.Logs.Add(new LogViewModel("(" + _lastCtrlClicked.ToString() + "," + nowClicked.ToString() + ")"));
+				if (main == null) return;
+				main.Connect(_lastCtrlClicked, nowClicked);
 				_lastCtrlClicked = -1;
 			}
 			else
@@ -72,6 +64,8 @@ namespace Graph
 
 			_last = e.GetPosition(grid);
 			_mouseDown = true;
+
+			e.Handled = true;
 		}
 
 		private void Node_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -80,8 +74,7 @@ namespace Graph
 			{
 				_mouseDown = false;
 				var grid = sender as Grid;
-				if (grid == null)
-					return;
+				if (grid == null) return;
 				grid.ReleaseMouseCapture();
 			}
 

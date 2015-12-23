@@ -56,12 +56,32 @@ namespace Graph.ViewModels
 			}
 		}
 
+		private int _key;
+		public int Key
+		{
+			get
+			{
+				return _key;
+			}
+			set
+			{
+				if( _key != value )
+				{
+					_key = value;
+					RaisePropertyChanged("Key");
+				}
+			}
+		}
+
 		private string _name;
 		public string Name
 		{
 			get
 			{
-				return _name;
+				if (_name == null)
+					return _key.ToString();
+				else
+					return _name;
 			}
 			set
 			{

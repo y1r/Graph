@@ -8,6 +8,8 @@ using System.Windows.Media;
 using System.Collections.ObjectModel;
 using System.Windows.Controls.Primitives;
 
+using Graph.Containers;
+
 namespace Graph.ViewModels
 {
 	public class MainViewModel : ViewModelBase
@@ -58,6 +60,8 @@ namespace Graph.ViewModels
 
 		void _graphBackGroundClick(Object parameter)
 		{
+			Keyboard.ClearFocus();
+
 			var canvas = (Canvas)parameter;
 			var ptr = Mouse.GetPosition(canvas);
 			Logs.Add(new LogViewModel("GraphCanvasClicked:(" + ptr.ToString() + ")"));
@@ -66,16 +70,27 @@ namespace Graph.ViewModels
 			newNode.Size = 50;
 			newNode.xPos = ptr.X - 25;
 			newNode.yPos = ptr.Y - 25;
-			newNode.Name = NodesCount.ToString();
+			newNode.Key = NodesCount;
 			Nodes.Add(newNode);
 		}
 
-		public ICommand NodeClick { get; private set; }
-
-		void _nodeClick(Object parameter)
+		public void Connect( int from, int to )
 		{
-			Console.WriteLine("hoge");
-			return;
+			NodeViewModel fromNode = null, toNode = null;
+
+			foreach (var node in Nodes)
+			{
+				if (node.Key == from)
+					fromNode = node;
+				if (node.Key == to)
+					toNode = node;
+			}
+
+			if (fromNode == null || toNode == null) return;
+
+			var edge = new EdgeViewModel(new Pair<NodeViewModel>(fromNode, toNode));
+
+			Edges.Add(edge);
 		}
 
 		public MainViewModel()

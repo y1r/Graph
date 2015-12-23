@@ -7,30 +7,38 @@
 	WindowStartupLocation="CenterScreen"
 	ResizeMode="CanResize"
 	Width="1024"
-	Height="768"
-	>
+	Height="768">
 	<Grid>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="1*"/>
-			<ColumnDefinition Width="4*"/>
+			<ColumnDefinition
+				Width="1*" />
+			<ColumnDefinition
+				Width="4*" />
 		</Grid.ColumnDefinitions>
 		<Border
-				BorderBrush="Gray"
-				BorderThickness="3"
-				Grid.Column="0"
-				Grid.Row="0"
-				>
-			<Grid Grid.Column="0">
+			BorderBrush="Gray"
+			BorderThickness="3"
+			Grid.Column="0"
+			Grid.Row="0">
+			<Grid
+				Grid.Column="0">
 				<Grid.RowDefinitions>
-					<RowDefinition Height="15" />
-					<RowDefinition Height="30" />
-					<RowDefinition Height="30" />
-					<RowDefinition Height="15" />
-					<RowDefinition Height="*" />
+					<RowDefinition
+						Height="15" />
+					<RowDefinition
+						Height="30" />
+					<RowDefinition
+						Height="30" />
+					<RowDefinition
+						Height="15" />
+					<RowDefinition
+						Height="*" />
 				</Grid.RowDefinitions>
 				<Grid.ColumnDefinitions>
-					<ColumnDefinition Width="*"/>
-					<ColumnDefinition Width="*"/>
+					<ColumnDefinition
+						Width="*" />
+					<ColumnDefinition
+						Width="*" />
 				</Grid.ColumnDefinitions>
 
 				<TextBlock
@@ -38,14 +46,14 @@
 					Text="Controlls"
 					Grid.Row="0"
 					Grid.Column="0"
-					Grid.ColumnSpan="2"
-					/>
+					Grid.ColumnSpan="2" />
 
 				<Button
 					Grid.Column="0"
 					Grid.Row="1">
 					<Viewbox>
-						<Label Content="Deep-First Search"/>
+						<Label
+							Content="Deep-First Search" />
 					</Viewbox>
 				</Button>
 
@@ -53,7 +61,8 @@
 					Grid.Column="1"
 					Grid.Row="1">
 					<Viewbox>
-						<Label Content="Breadth-First Search"/>
+						<Label
+							Content="Breadth-First Search" />
 					</Viewbox>
 				</Button>
 
@@ -61,7 +70,8 @@
 					Grid.Column="0"
 					Grid.Row="2">
 					<Viewbox>
-						<Label Content="最短経路探索(Dijkstra)"/>
+						<Label
+							Content="最短経路探索(Dijkstra)" />
 					</Viewbox>
 				</Button>
 
@@ -69,7 +79,8 @@
 					Grid.Column="1"
 					Grid.Row="2">
 					<Viewbox>
-						<Label Content="最小全域木 (Kruskal)"/>
+						<Label
+							Content="最小全域木 (Kruskal)" />
 					</Viewbox>
 				</Button>
 
@@ -78,8 +89,7 @@
 					Text="Log Viewer"
 					Grid.Row="3"
 					Grid.Column="0"
-					Grid.ColumnSpan="2"
-					/>
+					Grid.ColumnSpan="2" />
 
 				<ListBox
 					HorizontalAlignment="Stretch"
@@ -89,175 +99,79 @@
 					FontSize="8"
 					Grid.Row="4"
 					Grid.Column="0"
-					Grid.ColumnSpan="2"
-					>
+					Grid.ColumnSpan="2">
 
 				</ListBox>
 
 			</Grid>
 		</Border>
 		<Border
-				BorderBrush="Gray"
-				BorderThickness="3"
-				Grid.Column="1"
-				Grid.Row="0"
-				>
+			BorderBrush="Gray"
+			BorderThickness="3"
+			Grid.Column="1"
+			Grid.Row="0">
 			<Canvas
 				Name="GraphCanvas"
-				Background="GhostWhite"
-				>
+				Background="White">
 				<Canvas.InputBindings>
 					<MouseBinding
 						Gesture="LeftClick"
 						Command="{Binding GraphBackGroundClick}"
-						CommandParameter="{Binding ElementName=GraphCanvas}"
-						/>
+						CommandParameter="{Binding ElementName=GraphCanvas}" />
 				</Canvas.InputBindings>
 
 				<ItemsControl
-					ItemsSource="{Binding Nodes}"
-					>
+					ItemsSource="{Binding Edges}">
 					<ItemsControl.ItemTemplate>
 						<DataTemplate>
-<!--								<Thumb
-									Canvas.Left="{Binding xPos, Mode=TwoWay}" 
+							<Canvas>
+								<Grid
+									Canvas.Left="{Binding OriginX}"
+									Canvas.Top="{Binding OriginY}">
+									<Line
+										X1="{Binding FirstX}"
+										Y1="{Binding FirstY}"
+										X2="{Binding SecondX}"
+										Y2="{Binding SecondY}"
+										Stroke="Black"
+										StrokeThickness="5" />
+									<TextBox
+										Text="{Binding Weight}"
+										Background="White"
+										HorizontalAlignment="Center"
+										VerticalAlignment="Center" />
+								</Grid>
+							</Canvas>
+						</DataTemplate>
+					</ItemsControl.ItemTemplate>
+				</ItemsControl>
+
+				<ItemsControl
+					ItemsSource="{Binding Nodes}">
+					<ItemsControl.ItemTemplate>
+						<DataTemplate>
+							<Canvas>
+								<Grid
+									Canvas.Left="{Binding xPos, Mode=TwoWay}"
 									Canvas.Top="{Binding yPos, Mode=TwoWay}"
-									Name="Node"
 									MouseLeftButtonDown="Node_MouseLeftButtonDown"
 									MouseLeftButtonUp="Node_MouseLeftButtonUp"
-									MouseMove="Node_MouseMove"
-								>
-									<Thumb.Template>
-										<ControlTemplate TargetType="Thumb">
-											<Grid>
-												<Ellipse
-													Stroke="Black"
-													Fill="White"
-													StrokeThickness="3"
-													Width="{Binding Size}"
-													Height="{Binding Size}"
-												/>
-												<TextBlock	
-													Name="Node"
-													Text="{Binding Name}"
-													HorizontalAlignment="Center"
-													VerticalAlignment="Center"
-												/>
-											</Grid>
-										</ControlTemplate>
-									</Thumb.Template>
-								</Thumb> -->
-								<Canvas>
-									<Grid
-										Canvas.Left="{Binding xPos, Mode=TwoWay}"
-										Canvas.Top="{Binding yPos, Mode=TwoWay}"
-										MouseLeftButtonDown="Node_MouseLeftButtonDown"
-										MouseLeftButtonUp="Node_MouseLeftButtonUp"
-										MouseMove="Node_MouseMove"
-										>
-										<Ellipse
+									MouseMove="Node_MouseMove">
+									<Ellipse
 										Stroke="Black"
 										Fill="White"
 										StrokeThickness="3"
 										Width="{Binding Size}"
-										Height="{Binding Size}"
-										/>
-										<TextBlock	
+										Height="{Binding Size}" />
+									<TextBox
 										Text="{Binding Name}"
 										HorizontalAlignment="Center"
-										VerticalAlignment="Center"
-										/>
-									</Grid>
-								</Canvas>
+										VerticalAlignment="Center" />
+								</Grid>
+							</Canvas>
 						</DataTemplate>
 					</ItemsControl.ItemTemplate>
 				</ItemsControl>
-				
-				
-				<!--
-				<ItemsControl ItemsSource="{Binding Nodes}">
-					<ItemsControl.InputBindings>
-					</ItemsControl.InputBindings>
-
-					<ItemsControl.ItemsPanel>
-						<ItemsPanelTemplate>
-							<Canvas />
-						</ItemsPanelTemplate>
-					</ItemsControl.ItemsPanel>
-
-					<ItemsControl.ItemContainerStyle>
-						<Style>
-							<Setter Property="Canvas.Left" Value="{Binding xPos}" />
-							<Setter Property="Canvas.Top" Value="{Binding yPos}" />
-						</Style>
-					</ItemsControl.ItemContainerStyle>
-
-					<ItemsControl.ItemTemplate>
-						<DataTemplate>
-							<Ellipse
-								Width="{Binding width}"
-								Height="{Binding height}"
-								Fill="Black"
-								/>
-						</DataTemplate>
-					</ItemsControl.ItemTemplate>
-
-				</ItemsControl>
-				<ItemsControl ItemsSource="{Binding Edges}">
-					<ItemsControl.InputBindings>
-
-					</ItemsControl.InputBindings>
-				</ItemsControl>
-				-->
-				<!--
-				<Thumb Canvas.Left="100" Canvas.Top="100">
-					<Thumb.Template>
-						<ControlTemplate TargetType="Thumb">
-							<Grid>
-								<Ellipse
-								Stroke="Black"
-								Fill="White"
-								StrokeThickness="3"
-								Width="75"
-								Height="75"
-								/>
-								<TextBlock
-									Text="HOGE"
-									HorizontalAlignment="Center"
-									VerticalAlignment="Center"
-									/>
-							</Grid>
-						</ControlTemplate>
-					</Thumb.Template>
-				</Thumb>
-				-->
-
-				<!--
-				<Thumb
-					HorizontalAlignment="Center"
-					VerticalAlignment="Center"
-					>
-					<Thumb.Template>
-						<ControlTemplate TargetType="Thumb">
-							<Grid>
-								<Line
-									X1="100"
-									Y1="100"
-									X2="200"
-									Y2="200"
-									Width="100"
-									Height="100"
-									/>
-								<TextBlock
-									Text="HOGE"
-									HorizontalAlignment="Center"
-									VerticalAlignment="Center"
-									/>
-							</Grid>
-						</ControlTemplate>
-					</Thumb.Template>
-				</Thumb>
-				-->
 
 			</Canvas>
 		</Border>

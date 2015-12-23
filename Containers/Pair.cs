@@ -11,8 +11,29 @@ namespace Graph.Containers
 		private T _first;
 		private T _second;
 
-		public T First { get; set; }
-		public T Second { get; set; }
+		public T First
+		{
+			get
+			{
+				return _first;
+			}
+			set
+			{
+				_first = value;
+			}
+		}
+
+		public T Second
+		{
+			get
+			{
+				return _second;
+			}
+			set
+			{
+				_second = value;
+			}
+		}
 
 		public Pair( T first, T second )
 		{
