@@ -83,6 +83,7 @@ namespace Graph.ViewModels
 		void _DFS(Object parameter)
 		{
 			var results = DFS.Run(_graph, 1);
+//			var results = Dijkstra.Run(_graph, 1, 10);
 			foreach (var result in results)
 				Logs.Add(new LogViewModel("(" + result.First.ToString() + "," + result.Second.ToString() + ")"));
 		}
@@ -91,6 +92,14 @@ namespace Graph.ViewModels
 		void _BFS(Object parameter)
 		{
 			var results = BFS.Run(_graph, 1);
+			foreach (var result in results)
+				Logs.Add(new LogViewModel("(" + result.First.ToString() + "," + result.Second.ToString() + ")"));
+		}
+
+		public ICommand DijkstraClick { get; private set; }
+		void _Dijkstra(Object parameter)
+		{
+			var results = Dijkstra.Run(_graph, 1, 10);
 			foreach (var result in results)
 				Logs.Add(new LogViewModel("(" + result.First.ToString() + "," + result.Second.ToString() + ")"));
 		}
@@ -126,6 +135,7 @@ namespace Graph.ViewModels
 			GraphBackGroundClick = new RelayCommand(_graphBackGroundClick);
 			DFSClick = new RelayCommand(_DFS);
 			BFSClick = new RelayCommand(_BFS);
+			DijkstraClick = new RelayCommand(_Dijkstra);
 		}
 	}
 }

@@ -22,6 +22,7 @@ namespace Graph.ViewModels
 
 			base.Add(newVM);
 			_graphModel.Connect(newVM.Pos.First.Key, newVM.Pos.Second.Key);
+			_graphModel.SetWeight(newVM.Pos.First.Key, newVM.Pos.Second.Key, (int)newVM._weight);
 		}
 
 		public new void Remove(EdgeViewModel target)

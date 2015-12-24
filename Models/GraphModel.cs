@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Diagnostics;
 
+using Graph.Containers;
+
 namespace Graph.Models
 {
 	public class GraphModel
@@ -37,13 +39,7 @@ namespace Graph.Models
 
 			V.Remove(node);
 
-			foreach (var edge in E)
-			{
-				if (edge.Target.First == node || edge.Target.Second == node)
-				{
-					E.Remove(edge);
-				}
-			}
+			E.RemoveAll(i => i.Target.First == node || i.Target.Second == node);
 		}
 
 		public void Connect(int node1, int node2)
@@ -70,7 +66,7 @@ namespace Graph.Models
 
 		public void SetWeight(int node1, int node2, int weight)
 		{
-			E[E.IndexOf(new Path(node1, node2))].Weight = weight;
+			E.First(i => i.Target == new SwapablePair<int>(node1, node2)).Weight = weight;
 		}
 
 		private bool isExists(int node)
@@ -89,6 +85,11 @@ namespace Graph.Models
 				from node in E
 				where node.Target.First == key || node.Target.Second == key
 				select node.Target.First != key ? node.Target.First : node.Target.Second;
+		}
+
+		public int Weight( int node1, int node2)
+		{
+			return E.First(i => i.Target.Equals(new SwapablePair<int>(node1, node2))).Weight;
 		}
 	}
 }

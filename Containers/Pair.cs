@@ -84,8 +84,8 @@ namespace Graph.Containers
 		public bool Equals(SwapablePair<T> obj)
 		{
 			return
-				_first.Equals(obj.First) && _second.Equals(obj.Second) ||
-				_second.Equals(obj.First) && _first.Equals(obj.Second);
+				(_first.Equals(obj.First) && _second.Equals(obj.Second)) ||
+				(_second.Equals(obj.First) && _first.Equals(obj.Second));
 		}
 	}
 }

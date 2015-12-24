@@ -72,7 +72,9 @@
 
 				<Button
 					Grid.Column="0"
-					Grid.Row="2">
+					Grid.Row="2"
+					Command="{Binding DijkstraClick}"
+					>
 					<Viewbox>
 						<Label
 							Content="最短経路探索(Dijkstra)" />
