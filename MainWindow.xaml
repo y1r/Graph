@@ -50,7 +50,9 @@
 
 				<Button
 					Grid.Column="0"
-					Grid.Row="1">
+					Grid.Row="1"
+					Command="{Binding DFSClick}"
+					>
 					<Viewbox>
 						<Label
 							Content="Deep-First Search" />
@@ -59,7 +61,9 @@
 
 				<Button
 					Grid.Column="1"
-					Grid.Row="1">
+					Grid.Row="1"
+					Command="{Binding BFSClick}"
+					>
 					<Viewbox>
 						<Label
 							Content="Breadth-First Search" />
@@ -133,7 +137,7 @@
 										Y1="{Binding FirstY}"
 										X2="{Binding SecondX}"
 										Y2="{Binding SecondY}"
-										Stroke="Black"
+										Stroke="{Binding Color}"
 										StrokeThickness="5" />
 									<TextBox
 										Text="{
@@ -162,7 +166,7 @@
 									MouseLeftButtonUp="Node_MouseLeftButtonUp"
 									MouseMove="Node_MouseMove">
 									<Ellipse
-										Stroke="Black"
+										Stroke="{Binding Color}"
 										Fill="White"
 										StrokeThickness="3"
 										Width="{Binding Size}"

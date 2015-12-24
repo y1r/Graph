@@ -1,10 +1,16 @@
 ﻿using Microsoft.TeamFoundation.MVVM;
 using System;
+using System.Windows.Media;
 
 namespace Graph.ViewModels
 {
 	public class NodeViewModel : ViewModelBase
 	{
+		public NodeViewModel()
+		{
+			_color = new SolidColorBrush(Colors.Black);
+		}
+
 		private double _xPos;
 		public double xPos
 		{
@@ -48,7 +54,7 @@ namespace Graph.ViewModels
 			}
 			set
 			{
-				if( _size != value )
+				if (_size != value)
 				{
 					_size = value;
 					RaisePropertyChanged("Size");
@@ -65,7 +71,7 @@ namespace Graph.ViewModels
 			}
 			set
 			{
-				if( _key != value )
+				if (_key != value)
 				{
 					_key = value;
 					RaisePropertyChanged("Key");
@@ -85,10 +91,27 @@ namespace Graph.ViewModels
 			}
 			set
 			{
-				if( _name != value )
+				if (_name != value)
 				{
 					_name = value;
 					RaisePropertyChanged("Name");
+				}
+			}
+		}
+
+		private Brush _color;
+		public Brush Color
+		{
+			get
+			{
+				return _color;
+			}
+			set
+			{
+				if (_color != value)
+				{
+					_color = value;
+					RaisePropertyChanged("Color");
 				}
 			}
 		}

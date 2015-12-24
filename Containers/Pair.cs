@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Graph.Containers
 {
-	public class Pair<T> : IEquatable<Pair<T>>
+	public class Pair<T1, T2> : IEquatable<Pair<T1, T2>>
 	{
-		private T _first;
-		private T _second;
+		protected T1 _first;
+		protected T2 _second;
 
-		public T First
+		public T1 First
 		{
 			get
 			{
@@ -23,7 +23,7 @@ namespace Graph.Containers
 			}
 		}
 
-		public T Second
+		public T2 Second
 		{
 			get
 			{
@@ -35,7 +35,7 @@ namespace Graph.Containers
 			}
 		}
 
-		public Pair( T first, T second )
+		public Pair( T1 first, T2 second )
 		{
 			_first = first;
 			_second = second;
@@ -46,18 +46,17 @@ namespace Graph.Containers
 			if (obj == null)
 				return false;
 
-			Pair<T> p = obj as Pair<T>;
+			Pair<T1, T2> p = obj as Pair<T1, T2>;
 			if ((System.Object)p == null)
 				return false;
 
 			return _first.Equals(p);
 		}
 
-		public bool Equals(Pair<T> obj)
+		public bool Equals(Pair<T1, T2> obj)
 		{
 			return
-				_first.Equals(obj.First) && _second.Equals(obj.Second) ||
-				_first.Equals(obj.Second) && _second.Equals(obj.First);
+				_first.Equals(obj.First) && _second.Equals(obj.Second);
 		}
 
 		public override int GetHashCode()
@@ -65,7 +64,7 @@ namespace Graph.Containers
 			return _first.GetHashCode() ^ _second.GetHashCode();
 		}
 
-		public static bool operator ==(Pair<T> obj1, Pair<T> obj2)
+		public static bool operator ==(Pair<T1, T2> obj1, Pair<T1, T2> obj2)
 		{
 			if (ReferenceEquals(obj1, obj2))
 				return true;
@@ -73,9 +72,20 @@ namespace Graph.Containers
 			return obj1.Equals(obj2);
 		}
 
-		public static bool operator !=(Pair<T> obj1, Pair<T> obj2)
+		public static bool operator !=(Pair<T1, T2> obj1, Pair<T1, T2> obj2)
 		{
 			return !(obj1 == obj2);
+		}
+	}
+
+	public class SwapablePair<T> : Pair<T, T>
+	{
+		public SwapablePair(T first, T second) : base(first, second) { }
+		public bool Equals(SwapablePair<T> obj)
+		{
+			return
+				_first.Equals(obj.First) && _second.Equals(obj.Second) ||
+				_second.Equals(obj.First) && _first.Equals(obj.Second);
 		}
 	}
 }

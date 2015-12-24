@@ -9,8 +9,8 @@ namespace Graph.Models
 {
 	public class GraphModel
 	{
-		private List<int> V { get; set; }
-		private List<Path> E { get; set; }
+		public List<int> V { get; private set; }
+		public List<Path> E { get; private set; }
 
 		public GraphModel()
 		{
@@ -81,6 +81,14 @@ namespace Graph.Models
 		private bool isExists(Path path)
 		{
 			return E.Contains(path);
+		}
+
+		public IEnumerable<int> ConnectedNodes( int key )
+		{
+			return
+				from node in E
+				where node.Target.First == key || node.Target.Second == key
+				select node.Target.First != key ? node.Target.First : node.Target.Second;
 		}
 	}
 }

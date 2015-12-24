@@ -8,20 +8,20 @@ using Graph.Containers;
 
 namespace Graph.Models
 {
-	class Path : IEquatable<Path>
+	public class Path : IEquatable<Path>
 	{
-		public Pair<int> Target { get; set; }
+		public SwapablePair<int> Target { get; set; }
 		public int Weight { get; set; }
 
 		public Path( int node1, int node2 )
 		{
-			Target = new Pair<int>(node1, node2);
+			Target = new SwapablePair<int>(node1, node2);
 			Weight = 0;
 		}
 
 		public Path(int node1, int node2, int weight)
 		{
-			Target = new Pair<int>(node1, node2);
+			Target = new SwapablePair<int>(node1, node2);
 			Weight = weight;
 		}
 

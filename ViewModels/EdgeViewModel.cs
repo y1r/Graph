@@ -1,22 +1,24 @@
 ﻿using Graph.Containers;
 using System;
+using System.Windows.Media;
 
 namespace Graph.ViewModels
 {
 	public class EdgeViewModel : ViewModelBase, IEquatable<EdgeViewModel>
 	{
-		public Pair<NodeViewModel> Pos
+		public SwapablePair<NodeViewModel> Pos
 		{
 			get;
 			private set;
 		}
 
-		public EdgeViewModel( Pair<NodeViewModel> pos )
+		public EdgeViewModel( SwapablePair<NodeViewModel> pos )
 		{
 			Pos = pos;
 			Pos.First.PropertyChanged += NodeViewPropertyChanged;
 			Pos.Second.PropertyChanged += NodeViewPropertyChanged;
 			_weight = 1;
+			_color = new SolidColorBrush(Colors.Black);
 		}
 
 		void NodeViewPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -103,6 +105,23 @@ namespace Graph.ViewModels
 						_weight = input;
 						RaisePropertyChanged("Weight");
 					}
+				}
+			}
+		}
+
+		private Brush _color;
+		public Brush Color
+		{
+			get
+			{
+				return _color;
+			}
+			set
+			{
+				if (_color != value)
+				{
+					_color = value;
+					RaisePropertyChanged("Color");
 				}
 			}
 		}

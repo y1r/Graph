@@ -74,7 +74,25 @@ namespace Graph.ViewModels
 			newNode.xPos = ptr.X - 25;
 			newNode.yPos = ptr.Y - 25;
 			newNode.Key = NodesCount;
+//			if (newNode.Key == 3)
+//				newNode.Color = new SolidColorBrush(Colors.Red);
 			Nodes.Add(newNode);
+		}
+
+		public ICommand DFSClick { get; private set; }
+		void _DFS(Object parameter)
+		{
+			var results = DFS.Run(_graph, 1);
+			foreach (var result in results)
+				Logs.Add(new LogViewModel("(" + result.First.ToString() + "," + result.Second.ToString() + ")"));
+		}
+
+		public ICommand BFSClick { get; private set; }
+		void _BFS(Object parameter)
+		{
+			var results = BFS.Run(_graph, 1);
+			foreach (var result in results)
+				Logs.Add(new LogViewModel("(" + result.First.ToString() + "," + result.Second.ToString() + ")"));
 		}
 
 		public void Connect( int from, int to )
@@ -91,16 +109,12 @@ namespace Graph.ViewModels
 
 			if (fromNode == null || toNode == null) return;
 
-			var edge = new EdgeViewModel(new Pair<NodeViewModel>(fromNode, toNode));
+			var edge = new EdgeViewModel(new SwapablePair<NodeViewModel>(fromNode, toNode));
 
 			if( !Edges.Contains(edge) )
-			{
 				Edges.Add(edge);
-			}
 			else
-			{
 				Edges.Remove(edge);
-			}
 		}
 
 		public MainViewModel()
@@ -110,6 +124,8 @@ namespace Graph.ViewModels
 			_edges = new EdgesViewModel(_graph);
 
 			GraphBackGroundClick = new RelayCommand(_graphBackGroundClick);
+			DFSClick = new RelayCommand(_DFS);
+			BFSClick = new RelayCommand(_BFS);
 		}
 	}
 }
