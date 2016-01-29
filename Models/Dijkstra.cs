@@ -31,7 +31,7 @@ namespace Graph.Models
 
 			while( nodes.Count() != 0 )
 			{
-				var u = dist.Where( k => nodes.Contains(k.First)).Aggregate((i, j) => i.Second < j.Second ? i : j).First;
+				var u = Utils.Min(dist.Where(k => nodes.Contains(k.First)), (val) => val.Second).First;
 
 				nodes.Remove(u);
 				foreach (var v in graph.ConnectedNodes(u))

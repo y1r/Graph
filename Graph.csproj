@@ -57,6 +57,8 @@
     <Compile Include="Models\BFS.cs" />
     <Compile Include="Models\DFS.cs" />
     <Compile Include="Models\Dijkstra.cs" />
+    <Compile Include="Models\Kruskal.cs" />
+    <Compile Include="Models\Utils.cs" />
     <Compile Include="ViewModels\EdgesViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\LogViewModel.cs" />

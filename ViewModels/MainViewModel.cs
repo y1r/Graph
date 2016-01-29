@@ -104,6 +104,14 @@ namespace Graph.ViewModels
 				Logs.Add(new LogViewModel("(" + result.First.ToString() + "," + result.Second.ToString() + ")"));
 		}
 
+		public ICommand KruskalClick { get; private set; }
+		void _Kruskal(Object parameter)
+		{
+			var results = Kruskal.Run(_graph);
+			foreach (var result in results)
+				Logs.Add(new LogViewModel("(" + result.First.ToString() + "," + result.Second.ToString() + ")"));
+		}
+
 		public void Connect( int from, int to )
 		{
 			NodeViewModel fromNode = null, toNode = null;
@@ -136,6 +144,7 @@ namespace Graph.ViewModels
 			DFSClick = new RelayCommand(_DFS);
 			BFSClick = new RelayCommand(_BFS);
 			DijkstraClick = new RelayCommand(_Dijkstra);
+			KruskalClick = new RelayCommand(_Kruskal);
 		}
 	}
 }
