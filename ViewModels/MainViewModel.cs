@@ -158,9 +158,9 @@ namespace Graph.ViewModels
 		}
 
 		public ICommand KruskalClick { get; private set; }
-		void _Kruskal()
+		async void _Kruskal()
 		{
-			_Stop();
+			await exactStop();
 
 			var results = Kruskal.Run(_graph);
 			changeColor(results, Colors.Red);
@@ -180,9 +180,19 @@ namespace Graph.ViewModels
 		}
 
 		public ICommand StopClick { get; private set; }
-		void _Stop()
+		async private void _Stop()
 		{
-			if (_cts != null) _cts.Cancel();
+			await exactStop();
+			changeAllColor(Colors.Black);
+		}
+
+		private async Task exactStop()
+		{
+			while(_cts != null )
+			{
+				_cts.Cancel();
+				await Task.Run(() => System.Threading.Thread.Sleep(100));
+			}
 		}
 
 		public void Connect(int from, int to)
@@ -209,7 +219,7 @@ namespace Graph.ViewModels
 
 		private async Task show(List<Pair<int, int>> target, Color color)
 		{
-			if (_cts != null) _cts.Cancel();
+			await exactStop();
 
 			_cts = new CancellationTokenSource();
 
@@ -240,6 +250,7 @@ namespace Graph.ViewModels
 			catch (OperationCanceledException)
 			{
 				changeAllColor(Colors.Black);
+				_cts = null;
 			}
 		}
 
