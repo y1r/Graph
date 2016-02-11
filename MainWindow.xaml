@@ -61,7 +61,7 @@
 					>
 					<Viewbox>
 						<Label
-							Content="Deep-First Search" />
+							Content="Depth-First Search" />
 					</Viewbox>
 				</Button>
 

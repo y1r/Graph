@@ -1,9 +1,9 @@
-# Graph Visualizer
+# Graph Algorithms Visualizer
 グラフアルゴリズムを可視化するソフトウェアです．
 
 ## 対応アルゴリズム
-- Deep First Search(深さ優先探索)
-- Breadth First Search(幅優先探索)
+- Depth-First Search(深さ優先探索)
+- Breadth-First Search(幅優先探索)
 - Dijkstra(最短経路探索)
 - Kruskal(最小全域木)
 
