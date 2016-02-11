@@ -75,25 +75,6 @@ namespace Graph.ViewModels
 			}
 		}
 
-		private string _name;
-		public string Name
-		{
-			get
-			{
-				if (_name == null)
-					return _key.ToString();
-				else
-					return _name;
-			}
-			set
-			{
-				if (_name != value)
-				{
-					SetProperty(ref _name, value);
-				}
-			}
-		}
-
 		private Brush _color;
 		public Brush Color
 		{

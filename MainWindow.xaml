@@ -30,6 +30,12 @@
 					<RowDefinition
 						Height="30" />
 					<RowDefinition
+						Height="30" />
+					<RowDefinition
+						Height="15" />
+					<RowDefinition
+						Height="30" />
+					<RowDefinition
 						Height="15" />
 					<RowDefinition
 						Height="*" />
@@ -84,18 +90,66 @@
 				<Button
 					Grid.Column="1"
 					Grid.Row="2"
-					Command="{Binding KruskalClick}"
-					>
+					Command="{Binding KruskalClick}">
 					<Viewbox>
 						<Label
 							Content="最小全域木 (Kruskal)" />
 					</Viewbox>
 				</Button>
 
+				<Button
+					Grid.Column="0"
+					Grid.Row="3"
+					Command="{Binding KruskalClick}">
+					<Viewbox>
+						<Label
+							Content="アニメーション終了" />
+					</Viewbox>
+				</Button>
+
+				<Button
+					Grid.Column="1"
+					Grid.Row="3"
+					Command="{Binding KruskalClick}">
+					<Viewbox>
+						<Label
+							Content="全消去" />
+					</Viewbox>
+				</Button>
+
+				<TextBlock
+					TextAlignment="Center"
+					Text="始点"
+					Grid.Row="4"
+					Grid.Column="0"
+					/>
+
+				<TextBlock
+					TextAlignment="Center"
+					Text="終点"
+					Grid.Row="4"
+					Grid.Column="1" />
+
+				<ComboBox
+					Grid.Row="5"
+					Grid.Column="0"
+					ItemsSource="{Binding Nodes}"
+					DisplayMemberPath="Key"
+					SelectedItem="{Binding From}"
+					/>
+
+				<ComboBox
+					Grid.Row="5"
+					Grid.Column="1"
+					ItemsSource="{Binding Nodes}"
+					DisplayMemberPath="Key"
+					SelectedItem="{Binding To}"
+					/>
+
 				<TextBlock
 					TextAlignment="Center"
 					Text="Log Viewer"
-					Grid.Row="3"
+					Grid.Row="6"
 					Grid.Column="0"
 					Grid.ColumnSpan="2" />
 
@@ -105,12 +159,11 @@
 					ItemsSource="{Binding Logs}"
 					DisplayMemberPath="Log"
 					FontSize="8"
-					Grid.Row="4"
+					Grid.Row="7"
 					Grid.Column="0"
 					Grid.ColumnSpan="2">
 
 				</ListBox>
-
 			</Grid>
 		</Border>
 		<Border
@@ -175,8 +228,8 @@
 										StrokeThickness="3"
 										Width="{Binding Size}"
 										Height="{Binding Size}" />
-									<TextBox
-										Text="{Binding Name, Mode=TwoWay}"
+									<TextBlock
+										Text="{Binding Key}"
 										HorizontalAlignment="Center"
 										VerticalAlignment="Center" />
 								</Grid>

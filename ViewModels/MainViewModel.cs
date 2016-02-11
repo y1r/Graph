@@ -57,6 +57,26 @@ namespace Graph.ViewModels
 			}
 		}
 
+		private NodeViewModel _from;
+		public NodeViewModel From
+		{
+			get { return _from; }
+			set
+			{
+				SetProperty(ref _from, value);
+			}
+		}
+
+		private NodeViewModel _to;
+		public NodeViewModel To
+		{
+			get { return _to; }
+			set
+			{
+				SetProperty(ref _to, value);
+			}
+		}
+
 		public ICommand GraphBackGroundClick { get; private set; }
 
 		void _graphBackGroundClick(Object parameter)
@@ -80,8 +100,13 @@ namespace Graph.ViewModels
 		public ICommand DFSClick { get; private set; }
 		void _DFS(Object parameter)
 		{
-			var results = DFS.Run(_graph, 1);
-//			var results = Dijkstra.Run(_graph, 1, 10);
+			if( _from == null )
+			{
+				MessageBox.Show("始点が設定されていません");
+				return;
+			}
+
+			var results = DFS.Run(_graph, _from.Key );
 			foreach (var result in results)
 				Logs.Add(new LogViewModel("(" + result.First.ToString() + "," + result.Second.ToString() + ")"));
 		}
@@ -89,7 +114,13 @@ namespace Graph.ViewModels
 		public ICommand BFSClick { get; private set; }
 		void _BFS(Object parameter)
 		{
-			var results = BFS.Run(_graph, 1);
+			if (_from == null)
+			{
+				MessageBox.Show("始点が設定されていません");
+				return;
+			}
+
+			var results = BFS.Run(_graph, _from.Key);
 			foreach (var result in results)
 				Logs.Add(new LogViewModel("(" + result.First.ToString() + "," + result.Second.ToString() + ")"));
 		}
@@ -97,7 +128,19 @@ namespace Graph.ViewModels
 		public ICommand DijkstraClick { get; private set; }
 		void _Dijkstra(Object parameter)
 		{
-			var results = Dijkstra.Run(_graph, 1, 10);
+			if (_from == null)
+			{
+				MessageBox.Show("始点が設定されていません");
+				return;
+			}
+
+			if (_to == null)
+			{
+				MessageBox.Show("終点が設定されていません");
+				return;
+			}
+
+			var results = Dijkstra.Run(_graph, _from.Key, _to.Key);
 			foreach (var result in results)
 				Logs.Add(new LogViewModel("(" + result.First.ToString() + "," + result.Second.ToString() + ")"));
 		}
