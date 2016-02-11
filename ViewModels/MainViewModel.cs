@@ -194,7 +194,7 @@ namespace Graph.ViewModels
 			changeAllColor(Colors.Black);
 		}
 
-		private async Task exactStop()
+		public async Task exactStop()
 		{
 			while (_cts != null)
 			{
@@ -205,24 +205,18 @@ namespace Graph.ViewModels
 
 		public void Connect(int from, int to)
 		{
-			NodeViewModel fromNode = null, toNode = null;
+			NodeViewModel fromNode = Nodes.First(i => i.Key == from);
+			NodeViewModel toNode = Nodes.First(i => i.Key == to);
 
-			foreach (var node in Nodes)
-			{
-				if (node.Key == from)
-					fromNode = node;
-				if (node.Key == to)
-					toNode = node;
-			}
+			var edge1 = new EdgeViewModel(new SwapablePair<NodeViewModel>(fromNode, toNode));
+			var edge2 = new EdgeViewModel(new SwapablePair<NodeViewModel>(toNode, fromNode));
 
-			if (fromNode == null || toNode == null) return;
-
-			var edge = new EdgeViewModel(new SwapablePair<NodeViewModel>(fromNode, toNode));
-
-			if (!Edges.Contains(edge))
-				Edges.Add(edge);
-			else
-				Edges.Remove(edge);
+			if (!Edges.Contains(edge1) && !Edges.Contains(edge2))
+				Edges.Add(edge1);
+			else if (Edges.Contains(edge1))
+				Edges.Remove(edge1);
+			else if (Edges.Contains(edge2))
+				Edges.Remove(edge2);
 		}
 
 		private async Task show(List<Pair<int, int>> target, Color color)

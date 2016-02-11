@@ -36,14 +36,15 @@ namespace Graph
 		private int _lastCtrlClicked = -1;
 		private Point _last;
 
-		private void Node_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+		private async void Node_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
 		{
+			await ((MainViewModel)DataContext).exactStop();
 			int nowClicked = -1;
 			var grid = sender as Grid;
 			if (grid == null) return;
 			grid.CaptureMouse();
 
-			if(Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
+			if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
 			{
 				// Ctrl is pressed
 				var node = grid.DataContext as NodeViewModel;
