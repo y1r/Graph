@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Diagnostics;
 
 using Graph.Containers;
 
@@ -79,7 +76,7 @@ namespace Graph.Models
 			return E.Contains(path);
 		}
 
-		public IEnumerable<int> ConnectedNodes( int key )
+		public IEnumerable<int> ConnectedNodes(int key)
 		{
 			return
 				from node in E
@@ -87,7 +84,7 @@ namespace Graph.Models
 				select node.Target.First != key ? node.Target.First : node.Target.Second;
 		}
 
-		public int Weight( int node1, int node2)
+		public int Weight(int node1, int node2)
 		{
 			return E.First(i => i.Target.Equals(new SwapablePair<int>(node1, node2))).Weight;
 		}

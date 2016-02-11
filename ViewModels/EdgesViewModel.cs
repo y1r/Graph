@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using Graph.Models;
 
 namespace Graph.ViewModels
 {
-	public class EdgesViewModel: ObservableCollection<EdgeViewModel>
+	public class EdgesViewModel : ObservableCollection<EdgeViewModel>
 	{
 		public EdgesViewModel(GraphModel graphModel)
 		{
@@ -33,7 +27,7 @@ namespace Graph.ViewModels
 
 		void newVM_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
-			switch(e.PropertyName)
+			switch (e.PropertyName)
 			{
 				case "Weight":
 					{

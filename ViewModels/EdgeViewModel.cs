@@ -1,8 +1,8 @@
-﻿using Microsoft.Practices.Prism.Mvvm;
+﻿using System;
+using System.Windows.Media;
+using Microsoft.Practices.Prism.Mvvm;
 
 using Graph.Containers;
-using System;
-using System.Windows.Media;
 
 namespace Graph.ViewModels
 {
@@ -14,7 +14,7 @@ namespace Graph.ViewModels
 			private set;
 		}
 
-		public EdgeViewModel( SwapablePair<NodeViewModel> pos )
+		public EdgeViewModel(SwapablePair<NodeViewModel> pos)
 		{
 			Pos = pos;
 			Pos.First.PropertyChanged += NodeViewPropertyChanged;
@@ -95,14 +95,14 @@ namespace Graph.ViewModels
 			{
 				int input;
 
-				if( value == "" )
+				if (value == "")
 				{
 					_weight = null;
 					OnPropertyChanged("Weight");
 				}
-				else if( int.TryParse(value, out input ))
+				else if (int.TryParse(value, out input))
 				{
-					if( _weight != input )
+					if (_weight != input)
 					{
 						_weight = input;
 						OnPropertyChanged("Weight");
@@ -127,7 +127,7 @@ namespace Graph.ViewModels
 			}
 		}
 
-		public bool Equals( EdgeViewModel other )
+		public bool Equals(EdgeViewModel other)
 		{
 			return Pos == other.Pos;
 		}

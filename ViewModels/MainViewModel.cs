@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Linq;
-using System.ComponentModel;
 using System.Windows.Input;
 using Microsoft.Practices.Prism.Commands;
 using Microsoft.Practices.Prism.Mvvm;
@@ -11,7 +10,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Collections.ObjectModel;
-using System.Windows.Controls.Primitives;
 
 using Graph.Containers;
 using Graph.Models;
@@ -85,9 +83,9 @@ namespace Graph.ViewModels
 
 		public ICommand GraphBackGroundClick { get; private set; }
 
-		void _graphBackGroundClick(Object parameter)
+		async void _graphBackGroundClick(Object parameter)
 		{
-			_Stop();
+			await exactStop();
 			Keyboard.ClearFocus();
 
 			var canvas = (Canvas)parameter;
@@ -105,6 +103,8 @@ namespace Graph.ViewModels
 		public ICommand DFSClick { get; private set; }
 		async void _DFS()
 		{
+			Logs.Add(new LogViewModel("DFSClicked"));
+
 			if (_from == null)
 			{
 				MessageBox.Show("始点が設定されていません");
@@ -112,7 +112,7 @@ namespace Graph.ViewModels
 			}
 
 			var results = DFS.Run(_graph, _from.Key);
-			
+
 			await show(results, Colors.Red);
 		}
 
@@ -120,6 +120,8 @@ namespace Graph.ViewModels
 
 		async void _BFS()
 		{
+			Logs.Add(new LogViewModel("BFSClicked"));
+
 			if (_from == null)
 			{
 				MessageBox.Show("始点が設定されていません");
@@ -134,6 +136,8 @@ namespace Graph.ViewModels
 		public ICommand DijkstraClick { get; private set; }
 		async void _Dijkstra()
 		{
+			Logs.Add(new LogViewModel("DijkstraClicked"));
+
 			if (_from == null)
 			{
 				MessageBox.Show("始点が設定されていません");
@@ -148,7 +152,7 @@ namespace Graph.ViewModels
 
 			var results = Dijkstra.Run(_graph, _from.Key, _to.Key);
 
-			if( results == null )
+			if (results == null)
 			{
 				MessageBox.Show("始点と終点が接続されていません");
 				return;
@@ -160,6 +164,7 @@ namespace Graph.ViewModels
 		public ICommand KruskalClick { get; private set; }
 		async void _Kruskal()
 		{
+			Logs.Add(new LogViewModel("KruskalClicked"));
 			await exactStop();
 
 			var results = Kruskal.Run(_graph);
@@ -167,9 +172,11 @@ namespace Graph.ViewModels
 		}
 
 		public ICommand EraseClick { get; private set; }
-		void _Erase()
+		async void _Erase()
 		{
-			if (_cts != null) _cts.Cancel();
+			Logs.Add(new LogViewModel("EraseClicked"));
+
+			await exactStop();
 			_nodesCount = 0;
 			_from = null;
 			_to = null;
@@ -182,13 +189,14 @@ namespace Graph.ViewModels
 		public ICommand StopClick { get; private set; }
 		async private void _Stop()
 		{
+			Logs.Add(new LogViewModel("StopClicked"));
 			await exactStop();
 			changeAllColor(Colors.Black);
 		}
 
 		private async Task exactStop()
 		{
-			while(_cts != null )
+			while (_cts != null)
 			{
 				_cts.Cancel();
 				await Task.Run(() => System.Threading.Thread.Sleep(100));
@@ -221,13 +229,15 @@ namespace Graph.ViewModels
 		{
 			await exactStop();
 
+			Logs.Add(new LogViewModel("start shower"));
+
 			_cts = new CancellationTokenSource();
 
 			try
 			{
 				changeAllColor(Colors.Black);
 
-				await Task.Delay(1000, _cts.Token);
+				await Task.Delay(500, _cts.Token);
 
 				while (true)
 				{
@@ -251,10 +261,11 @@ namespace Graph.ViewModels
 			{
 				changeAllColor(Colors.Black);
 				_cts = null;
+				Logs.Add(new LogViewModel("stop shower"));
 			}
 		}
 
-		private void changeColor( List<Pair<int, int>> target, Color color )
+		private void changeColor(List<Pair<int, int>> target, Color color)
 		{
 			changeAllColor(Colors.Black);
 
@@ -268,9 +279,9 @@ namespace Graph.ViewModels
 			}
 		}
 
-		private void changeAllColor( Color color )
+		private void changeAllColor(Color color)
 		{
-			foreach(var edge in Edges)
+			foreach (var edge in Edges)
 			{
 				edge.Color = new SolidColorBrush(color);
 			}

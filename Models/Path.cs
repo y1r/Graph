@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Graph.Containers;
 
@@ -13,7 +9,7 @@ namespace Graph.Models
 		public SwapablePair<int> Target { get; set; }
 		public int Weight { get; set; }
 
-		public Path( int node1, int node2 )
+		public Path(int node1, int node2)
 		{
 			Target = new SwapablePair<int>(node1, node2);
 			Weight = 0;

@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Graph.Containers;
 
@@ -20,7 +17,7 @@ namespace Graph.Models
 
 			var queue = new Queue<int>();
 			queue.Enqueue(startNode);
-			
+
 			foreach (var node in visited.Where(i => i.First == startNode))
 				node.Second = true;
 
@@ -29,13 +26,13 @@ namespace Graph.Models
 				where node.Second == false
 				select node.First;
 
-			while( queue.Count() != 0 )
+			while (queue.Count() != 0)
 			{
 				int now = queue.Dequeue();
 				var connectedNodes = graph.ConnectedNodes(now);
-				foreach(var node in connectedNodes)
+				foreach (var node in connectedNodes)
 				{
-					if( movableNodes.Contains(node))
+					if (movableNodes.Contains(node))
 					{
 						result.Add(new Pair<int, int>(now, node));
 						foreach (var i in visited.Where(i => i.First == node))

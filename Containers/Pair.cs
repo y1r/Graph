@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Graph.Containers
 {
@@ -35,7 +31,7 @@ namespace Graph.Containers
 			}
 		}
 
-		public Pair( T1 first, T2 second )
+		public Pair(T1 first, T2 second)
 		{
 			_first = first;
 			_second = second;

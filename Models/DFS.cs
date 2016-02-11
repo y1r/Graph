@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Graph.Containers;
 
@@ -10,7 +7,7 @@ namespace Graph.Models
 {
 	public static class DFS
 	{
-		public static List<Pair<int, int>> Run( GraphModel graph, int startNode )
+		public static List<Pair<int, int>> Run(GraphModel graph, int startNode)
 		{
 			var result = new List<Pair<int, int>>();
 			var visited = new List<Pair<int, bool>>();
@@ -23,7 +20,7 @@ namespace Graph.Models
 			return result;
 		}
 
-		static void visit( GraphModel graph, int startNode, List<Pair<int, bool>> visited, List<Pair<int, int>> result )
+		static void visit(GraphModel graph, int startNode, List<Pair<int, bool>> visited, List<Pair<int, int>> result)
 		{
 			foreach (var node in visited.Where(i => i.First == startNode))
 				node.Second = true;

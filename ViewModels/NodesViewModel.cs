@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 
-using System.Collections.ObjectModel;
 using Graph.Models;
 
 namespace Graph.ViewModels
@@ -18,7 +13,6 @@ namespace Graph.ViewModels
 
 		public new void Add(NodeViewModel newVM)
 		{
-			//			newVM.PropertyChanged += newVM_PropertyChanged;
 			base.Add(newVM);
 
 			_graphModel.AddNode(newVM.Key);
@@ -30,12 +24,6 @@ namespace Graph.ViewModels
 
 			_graphModel.RemoveNode(targetVM.Key);
 		}
-
-		/*
-		void newVM_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-		{
-		}
-		 */
 
 		private GraphModel _graphModel;
 	}
