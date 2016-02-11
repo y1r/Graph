@@ -38,7 +38,6 @@ namespace Graph
 
 		private async void Node_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
 		{
-			await ((MainViewModel)DataContext).exactStop();
 			int nowClicked = -1;
 			var grid = sender as Grid;
 			if (grid == null) return;
@@ -57,6 +56,7 @@ namespace Graph
 				// Connect
 				var main = DataContext as MainViewModel;
 				if (main == null) return;
+				await ((MainViewModel)DataContext).exactStop();
 				main.Connect(_lastCtrlClicked, nowClicked);
 				_lastCtrlClicked = -1;
 			}
