@@ -122,7 +122,6 @@ namespace Graph.ViewModels
 			{
 				if (_color != value)
 				{
-					_color = value;
 					SetProperty(ref _color, value);
 				}
 			}

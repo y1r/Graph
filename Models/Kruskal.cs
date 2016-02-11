@@ -39,9 +39,10 @@ namespace Graph.Models
 				}
 			}
 
-			if (F.Count != 1) throw new Exception();
+			var result = new List<Pair<int, int>>();
 
-			var result = new List<Pair<int, int>>(F[0].Second.Select((val) => val.Target));
+			foreach(var tree in F)
+				result.AddRange(tree.Second.Select(val => val.Target));
 
 			return result;
 		}

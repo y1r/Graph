@@ -54,6 +54,8 @@ namespace Graph.Models
 				int next = prev[pair[now]].Second;
 				result.Add(new Pair<int, int>(next, now));
 				now = next;
+				if (now == -1)
+					return null;
 			}
 
 			result.Reverse();

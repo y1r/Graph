@@ -100,7 +100,7 @@
 				<Button
 					Grid.Column="0"
 					Grid.Row="3"
-					Command="{Binding KruskalClick}">
+					Command="{Binding StopClick}">
 					<Viewbox>
 						<Label
 							Content="アニメーション終了" />
@@ -110,7 +110,7 @@
 				<Button
 					Grid.Column="1"
 					Grid.Row="3"
-					Command="{Binding KruskalClick}">
+					Command="{Binding EraseClick}">
 					<Viewbox>
 						<Label
 							Content="全消去" />

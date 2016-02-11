@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Linq;
 using System.ComponentModel;
 using System.Windows.Input;
 using Microsoft.Practices.Prism.Commands;
@@ -18,13 +22,15 @@ namespace Graph.ViewModels
 	{
 		private GraphModel _graph;
 
+		private CancellationTokenSource _cts;
+
 		private NodesViewModel _nodes;
 		public NodesViewModel Nodes
 		{
 			get { return _nodes; }
 			set
 			{
-				SetProperty(ref _nodes, value);	
+				SetProperty(ref _nodes, value);
 			}
 		}
 		private int _nodesCount = 0;
@@ -43,7 +49,7 @@ namespace Graph.ViewModels
 			get { return _edges; }
 			set
 			{
-				SetProperty(ref _edges, value);	
+				SetProperty(ref _edges, value);
 			}
 		}
 
@@ -81,6 +87,7 @@ namespace Graph.ViewModels
 
 		void _graphBackGroundClick(Object parameter)
 		{
+			_Stop();
 			Keyboard.ClearFocus();
 
 			var canvas = (Canvas)parameter;
@@ -92,27 +99,26 @@ namespace Graph.ViewModels
 			newNode.xPos = ptr.X - 25;
 			newNode.yPos = ptr.Y - 25;
 			newNode.Key = NodesCount;
-//			if (newNode.Key == 3)
-//				newNode.Color = new SolidColorBrush(Colors.Red);
 			Nodes.Add(newNode);
 		}
 
 		public ICommand DFSClick { get; private set; }
-		void _DFS(Object parameter)
+		async void _DFS()
 		{
-			if( _from == null )
+			if (_from == null)
 			{
 				MessageBox.Show("始点が設定されていません");
 				return;
 			}
 
-			var results = DFS.Run(_graph, _from.Key );
-			foreach (var result in results)
-				Logs.Add(new LogViewModel("(" + result.First.ToString() + "," + result.Second.ToString() + ")"));
+			var results = DFS.Run(_graph, _from.Key);
+			
+			await show(results, Colors.Red);
 		}
 
 		public ICommand BFSClick { get; private set; }
-		void _BFS(Object parameter)
+
+		async void _BFS()
 		{
 			if (_from == null)
 			{
@@ -121,12 +127,12 @@ namespace Graph.ViewModels
 			}
 
 			var results = BFS.Run(_graph, _from.Key);
-			foreach (var result in results)
-				Logs.Add(new LogViewModel("(" + result.First.ToString() + "," + result.Second.ToString() + ")"));
+
+			await show(results, Colors.Red);
 		}
 
 		public ICommand DijkstraClick { get; private set; }
-		void _Dijkstra(Object parameter)
+		async void _Dijkstra()
 		{
 			if (_from == null)
 			{
@@ -141,19 +147,45 @@ namespace Graph.ViewModels
 			}
 
 			var results = Dijkstra.Run(_graph, _from.Key, _to.Key);
-			foreach (var result in results)
-				Logs.Add(new LogViewModel("(" + result.First.ToString() + "," + result.Second.ToString() + ")"));
+
+			if( results == null )
+			{
+				MessageBox.Show("始点と終点が接続されていません");
+				return;
+			}
+
+			await show(results, Colors.Red);
 		}
 
 		public ICommand KruskalClick { get; private set; }
-		void _Kruskal(Object parameter)
+		void _Kruskal()
 		{
+			_Stop();
+
 			var results = Kruskal.Run(_graph);
-			foreach (var result in results)
-				Logs.Add(new LogViewModel("(" + result.First.ToString() + "," + result.Second.ToString() + ")"));
+			changeColor(results, Colors.Red);
 		}
 
-		public void Connect( int from, int to )
+		public ICommand EraseClick { get; private set; }
+		void _Erase()
+		{
+			if (_cts != null) _cts.Cancel();
+			_nodesCount = 0;
+			_from = null;
+			_to = null;
+			_graph.E.Clear();
+			_graph.V.Clear();
+			_nodes.Clear();
+			_edges.Clear();
+		}
+
+		public ICommand StopClick { get; private set; }
+		void _Stop()
+		{
+			if (_cts != null) _cts.Cancel();
+		}
+
+		public void Connect(int from, int to)
 		{
 			NodeViewModel fromNode = null, toNode = null;
 
@@ -169,10 +201,68 @@ namespace Graph.ViewModels
 
 			var edge = new EdgeViewModel(new SwapablePair<NodeViewModel>(fromNode, toNode));
 
-			if( !Edges.Contains(edge) )
+			if (!Edges.Contains(edge))
 				Edges.Add(edge);
 			else
 				Edges.Remove(edge);
+		}
+
+		private async Task show(List<Pair<int, int>> target, Color color)
+		{
+			if (_cts != null) _cts.Cancel();
+
+			_cts = new CancellationTokenSource();
+
+			try
+			{
+				changeAllColor(Colors.Black);
+
+				await Task.Delay(1000, _cts.Token);
+
+				while (true)
+				{
+					foreach (var result in target)
+					{
+						var edge = Edges.First(i =>
+							(i.Pos.First.Key == result.First && i.Pos.Second.Key == result.Second) ||
+							(i.Pos.Second.Key == result.First && i.Pos.First.Key == result.Second));
+
+						edge.Color = new SolidColorBrush(color);
+
+						await Task.Delay(1000, _cts.Token);
+					}
+
+					changeAllColor(Colors.Black);
+
+					await Task.Delay(1000, _cts.Token);
+				}
+			}
+			catch (OperationCanceledException)
+			{
+				changeAllColor(Colors.Black);
+			}
+		}
+
+		private void changeColor( List<Pair<int, int>> target, Color color )
+		{
+			changeAllColor(Colors.Black);
+
+			foreach (var result in target)
+			{
+				var edge = Edges.First(i =>
+					(i.Pos.First.Key == result.First && i.Pos.Second.Key == result.Second) ||
+					(i.Pos.Second.Key == result.First && i.Pos.First.Key == result.Second));
+
+				edge.Color = new SolidColorBrush(color);
+			}
+		}
+
+		private void changeAllColor( Color color )
+		{
+			foreach(var edge in Edges)
+			{
+				edge.Color = new SolidColorBrush(color);
+			}
 		}
 
 		public MainViewModel()
@@ -182,10 +272,12 @@ namespace Graph.ViewModels
 			_edges = new EdgesViewModel(_graph);
 
 			GraphBackGroundClick = new DelegateCommand<object>(_graphBackGroundClick);
-			DFSClick = new DelegateCommand<object>(_DFS);
-			BFSClick = new DelegateCommand<object>(_BFS);
-			DijkstraClick = new DelegateCommand<object>(_Dijkstra);
-			KruskalClick = new DelegateCommand<object>(_Kruskal);
+			DFSClick = new DelegateCommand(_DFS);
+			BFSClick = new DelegateCommand(_BFS);
+			DijkstraClick = new DelegateCommand(_Dijkstra);
+			KruskalClick = new DelegateCommand(_Kruskal);
+			StopClick = new DelegateCommand(_Stop);
+			EraseClick = new DelegateCommand(_Erase);
 		}
 	}
 }
