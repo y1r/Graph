@@ -1,10 +1,10 @@
-﻿using Microsoft.TeamFoundation.MVVM;
-using System;
+﻿using System;
 using System.Windows.Media;
+using Microsoft.Practices.Prism.Mvvm;
 
 namespace Graph.ViewModels
 {
-	public class NodeViewModel : ViewModelBase
+	public class NodeViewModel : BindableBase
 	{
 		public NodeViewModel()
 		{
@@ -22,8 +22,7 @@ namespace Graph.ViewModels
 			{
 				if (_xPos != value)
 				{
-					_xPos = value;
-					RaisePropertyChanged("xPos");
+					SetProperty(ref _xPos, value);
 				}
 			}
 		}
@@ -39,8 +38,7 @@ namespace Graph.ViewModels
 			{
 				if (_yPos != value)
 				{
-					_yPos = value;
-					RaisePropertyChanged("yPos");
+					SetProperty(ref _yPos, value);
 				}
 			}
 		}
@@ -56,8 +54,7 @@ namespace Graph.ViewModels
 			{
 				if (_size != value)
 				{
-					_size = value;
-					RaisePropertyChanged("Size");
+					SetProperty(ref _size, value);
 				}
 			}
 		}
@@ -73,8 +70,7 @@ namespace Graph.ViewModels
 			{
 				if (_key != value)
 				{
-					_key = value;
-					RaisePropertyChanged("Key");
+					SetProperty(ref _key, value);
 				}
 			}
 		}
@@ -93,8 +89,7 @@ namespace Graph.ViewModels
 			{
 				if (_name != value)
 				{
-					_name = value;
-					RaisePropertyChanged("Name");
+					SetProperty(ref _name, value);
 				}
 			}
 		}
@@ -110,8 +105,7 @@ namespace Graph.ViewModels
 			{
 				if (_color != value)
 				{
-					_color = value;
-					RaisePropertyChanged("Color");
+					SetProperty(ref _color, value);
 				}
 			}
 		}

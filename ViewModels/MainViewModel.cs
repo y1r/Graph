@@ -1,7 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Windows.Input;
-using Microsoft.TeamFoundation.MVVM;
+using Microsoft.Practices.Prism.Commands;
+using Microsoft.Practices.Prism.Mvvm;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -13,7 +14,7 @@ using Graph.Models;
 
 namespace Graph.ViewModels
 {
-	public class MainViewModel : ViewModelBase
+	public class MainViewModel : BindableBase
 	{
 		private GraphModel _graph;
 
@@ -23,8 +24,7 @@ namespace Graph.ViewModels
 			get { return _nodes; }
 			set
 			{
-				_nodes = value;
-				RaisePropertyChanged("Nodes");
+				SetProperty(ref _nodes, value);	
 			}
 		}
 		private int _nodesCount = 0;
@@ -43,8 +43,7 @@ namespace Graph.ViewModels
 			get { return _edges; }
 			set
 			{
-				_edges = value;
-				RaisePropertyChanged("Edges");
+				SetProperty(ref _edges, value);	
 			}
 		}
 
@@ -54,8 +53,7 @@ namespace Graph.ViewModels
 			get { return _logs; }
 			set
 			{
-				_logs = value;
-				RaisePropertyChanged("Logs");
+				SetProperty(ref _logs, value);
 			}
 		}
 
@@ -140,11 +138,11 @@ namespace Graph.ViewModels
 			_nodes = new NodesViewModel(_graph);
 			_edges = new EdgesViewModel(_graph);
 
-			GraphBackGroundClick = new RelayCommand(_graphBackGroundClick);
-			DFSClick = new RelayCommand(_DFS);
-			BFSClick = new RelayCommand(_BFS);
-			DijkstraClick = new RelayCommand(_Dijkstra);
-			KruskalClick = new RelayCommand(_Kruskal);
+			GraphBackGroundClick = new DelegateCommand<object>(_graphBackGroundClick);
+			DFSClick = new DelegateCommand<object>(_DFS);
+			BFSClick = new DelegateCommand<object>(_BFS);
+			DijkstraClick = new DelegateCommand<object>(_Dijkstra);
+			KruskalClick = new DelegateCommand<object>(_Kruskal);
 		}
 	}
 }

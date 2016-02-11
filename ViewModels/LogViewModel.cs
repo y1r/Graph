@@ -1,6 +1,8 @@
-﻿namespace Graph.ViewModels
+﻿using Microsoft.Practices.Prism.Mvvm;
+
+namespace Graph.ViewModels
 {
-	public class LogViewModel : ViewModelBase
+	public class LogViewModel : BindableBase
 	{
 		public LogViewModel(string log)
 		{
@@ -19,8 +21,7 @@
 			{
 				if (Log != value)
 				{
-					_log = value;
-					RaisePropertyChanged("Log");
+					SetProperty(ref _log, value);
 				}
 			}
 		}

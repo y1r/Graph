@@ -1,10 +1,12 @@
-﻿using Graph.Containers;
+﻿using Microsoft.Practices.Prism.Mvvm;
+
+using Graph.Containers;
 using System;
 using System.Windows.Media;
 
 namespace Graph.ViewModels
 {
-	public class EdgeViewModel : ViewModelBase, IEquatable<EdgeViewModel>
+	public class EdgeViewModel : BindableBase, IEquatable<EdgeViewModel>
 	{
 		public SwapablePair<NodeViewModel> Pos
 		{
@@ -23,7 +25,7 @@ namespace Graph.ViewModels
 
 		void NodeViewPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
 		{
-			RaisePropertyChanged("");
+			OnPropertyChanged("");
 		}
 
 		public double OriginX
@@ -96,14 +98,14 @@ namespace Graph.ViewModels
 				if( value == "" )
 				{
 					_weight = null;
-					RaisePropertyChanged("Weight");
+					OnPropertyChanged("Weight");
 				}
 				else if( int.TryParse(value, out input ))
 				{
 					if( _weight != input )
 					{
 						_weight = input;
-						RaisePropertyChanged("Weight");
+						OnPropertyChanged("Weight");
 					}
 				}
 			}
@@ -121,7 +123,7 @@ namespace Graph.ViewModels
 				if (_color != value)
 				{
 					_color = value;
-					RaisePropertyChanged("Color");
+					SetProperty(ref _color, value);
 				}
 			}
 		}
