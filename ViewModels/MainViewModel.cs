@@ -4,12 +4,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Linq;
 using System.Windows.Input;
-using Microsoft.Practices.Prism.Commands;
-using Microsoft.Practices.Prism.Mvvm;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Collections.ObjectModel;
+
+using Prism.Mvvm;
+using Prism.Commands;
 
 using Graph.Containers;
 using Graph.Models;
